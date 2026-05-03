@@ -7,11 +7,11 @@
 
 ## 1. SETUP & INSTALLATION ✅
 
-| Step                    | Status  | Details                                   |
-| ----------------------- | ------- | ----------------------------------------- |
-| Python Version          | ✅ PASS | Python 3.11.2 (requirement: >= 3.10)      |
+| Step | Status | Details |
+|------|--------|---------|
+| Python Version | ✅ PASS | Python 3.11.2 (requirement: >= 3.10) |
 | Dependency Installation | ✅ PASS | `pip install -e .` completed successfully |
-| Package Registration    | ✅ PASS | returnwise-mas command registered         |
+| Package Registration | ✅ PASS | returnwise-mas command registered |
 
 ---
 
@@ -20,13 +20,11 @@
 ### Main Workflow Run
 
 **Command:**
-
 ```bash
 python -m returnwise_mas --input sample_data/return_requests.json --policy sample_data/return_policy.md --no-llm
 ```
 
 **Result:**
-
 ```json
 {
   "run_id": "returnwise-20260503-165341-88ccd273",
@@ -44,20 +42,16 @@ python -m returnwise_mas --input sample_data/return_requests.json --policy sampl
 ## 3. OUTPUT FILES VERIFICATION ✅
 
 ### Markdown Report Generated
-
 **File:** `outputs/return_decisions.md`
 **Content:**
-
 - ✅ RET-1001: Noise-cancelling headphones → **REPLACE** (Defective, Low Risk)
 - ✅ RET-1002: Running shoes → **REJECT** (Outside 45-day apparel window, Medium Risk)
 - ✅ RET-1003: 4K action camera → **ESCALATE** (High Risk: 100/100, used electronics, 5 recent returns)
 - ✅ RET-1004: Ceramic dinner set → **REPLACE** (Damaged-on-arrival, Low Risk)
 
 ### JSON Report Generated
-
 **File:** `outputs/return_decisions.json`
 ✅ Valid JSON structure, 4 decision objects with:
-
 - request_id
 - status (approve/replace/reject/escalate)
 - customer_message
@@ -66,10 +60,8 @@ python -m returnwise_mas --input sample_data/return_requests.json --policy sampl
 - risk_level
 
 ### Observability Logging
-
 **File:** `logs/returnwise-20260503-165341-88ccd273.jsonl`
 ✅ JSONL log contains:
-
 - 4 `agent_start` events (Intake, Policy, Risk, Resolution)
 - 25+ `tool_call` events (load_return_requests, normalize_return_request, read_policy_text, match_policy, calculate_risk_score, build_decision, write_decision_outputs)
 - 25+ `tool_result` events with payloads
@@ -81,13 +73,11 @@ python -m returnwise_mas --input sample_data/return_requests.json --policy sampl
 ## 4. UNIT TESTS ✅
 
 **Command:**
-
 ```bash
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
 **Results:**
-
 ```
 test_full_pipeline_generates_decisions_and_logs ... OK
 test_normalize_return_request_rejects_missing_fields ... OK
@@ -103,13 +93,11 @@ Ran 4 tests in 1.065s
 ## 5. EVALUATION HARNESS ✅
 
 **Command:**
-
 ```bash
 python tests/evaluation_harness.py
 ```
 
 **Results:**
-
 ```json
 {
   "passed": true,
@@ -121,7 +109,6 @@ python tests/evaluation_harness.py
 ```
 
 ✅ **All Checks Passed:**
-
 - ✅ Produces 4 final decisions
 - ✅ Each decision has valid status
 - ✅ Customer messages present and non-empty
@@ -135,37 +122,32 @@ python tests/evaluation_harness.py
 ## 6. AGENT BEHAVIOR VERIFICATION ✅
 
 ### Intake Agent
-
 ✅ Loaded return_requests.json (4 requests)  
 ✅ Normalized all 4 requests successfully  
 ✅ Validated required fields (request_id, customer_id, product_name, etc.)  
-✅ Converted data types correctly (dates, floats, integers)
+✅ Converted data types correctly (dates, floats, integers)  
 
 ### Policy Agent
-
 ✅ Read return_policy.md  
 ✅ Applied 6 policy rules for each request  
 ✅ Calculated days_since_purchase correctly  
 ✅ Assigned proper windows (14/30/45/60 days per category)  
-✅ Determined eligibility and suggested status
+✅ Determined eligibility and suggested status  
 
 ### Risk Agent
-
 ✅ Calculated risk scores (0-100 range)  
 ✅ Identified risk factors:
-
 - RET-1001: Low (10) - medium value item
 - RET-1002: Medium (25) - outside policy window
 - RET-1003: **HIGH (100)** - high return volume + high value + used item + ineligible
 - RET-1004: Low (10) - damage evidence flag
 
 ### Resolution Agent
-
 ✅ Synthesized policy + risk into decisions  
 ✅ Generated polite customer messages  
 ✅ Created internal reasoning notes  
 ✅ Defined clear next actions  
-✅ Wrote JSON and Markdown outputs
+✅ Wrote JSON and Markdown outputs  
 
 ---
 
@@ -195,19 +177,19 @@ Final State (complete with all agent outputs)
 
 ## 8. CUSTOM TOOLS VERIFICATION ✅
 
-| Tool                     | Calls | Status     |
-| ------------------------ | ----- | ---------- |
-| load_return_requests     | 1     | ✅ Working |
-| normalize_return_request | 4     | ✅ Working |
-| read_policy_text         | 1     | ✅ Working |
-| match_policy             | 4     | ✅ Working |
-| calculate_risk_score     | 4     | ✅ Working |
-| build_decision           | 4     | ✅ Working |
-| write_decision_outputs   | 1     | ✅ Working |
+| Tool | Calls | Status |
+|------|-------|--------|
+| load_return_requests | 1 | ✅ Working |
+| normalize_return_request | 4 | ✅ Working |
+| read_policy_text | 1 | ✅ Working |
+| match_policy | 4 | ✅ Working |
+| calculate_risk_score | 4 | ✅ Working |
+| build_decision | 4 | ✅ Working |
+| write_decision_outputs | 1 | ✅ Working |
 
 ✅ **All 7 custom tools executed successfully**  
 ✅ **Total tool calls: 19**  
-✅ **No errors or exceptions**
+✅ **No errors or exceptions**  
 
 ---
 
@@ -238,7 +220,7 @@ Final State (complete with all agent outputs)
 ✅ docs/
    ✅ technical_report.md (comprehensive documentation)
    ✅ demo_script.md (video script)
-   ✅ contribution_proof.md (student contributions - updated for sole contributor)
+   ✅ contribution_proof.md (student contributions - HAS PLACEHOLDERS)
 
 ✅ outputs/
    ✅ return_decisions.json (from latest run)
@@ -252,17 +234,17 @@ Final State (complete with all agent outputs)
 
 ## 10. REQUIREMENT COMPLIANCE MATRIX ✅
 
-| Requirement                     | Status  | Evidence                                               |
-| ------------------------------- | ------- | ------------------------------------------------------ |
-| Multi-Agent System (3–4 agents) | ✅ PASS | 4 agents: Intake, Policy, Risk, Resolution             |
-| Local LLM via Ollama            | ✅ PASS | OllamaClient implemented; works with --no-llm switch   |
-| Orchestration Framework         | ✅ PASS | LangGraph StateGraph + fallback SequentialWorkflow     |
-| Custom Python Tools             | ✅ PASS | 7 custom tools in tools.py, all type-hinted            |
-| Tool Integration                | ✅ PASS | All tools called by agents with full logging           |
-| State Management                | ✅ PASS | WorkflowState passed and updated through pipeline      |
-| Logging / Observability         | ✅ PASS | JSONL logs with timestamps, events, payloads           |
-| Testing Scripts                 | ✅ PASS | 4 unit tests, 1 integration test, 1 evaluation harness |
-| Fully Local (no paid APIs)      | ✅ PASS | No OpenAI/Anthropic keys required or used              |
+| Requirement | Status | Evidence |
+|---|---|---|
+| Multi-Agent System (3–4 agents) | ✅ PASS | 4 agents: Intake, Policy, Risk, Resolution |
+| Local LLM via Ollama | ✅ PASS | OllamaClient implemented; works with --no-llm switch |
+| Orchestration Framework | ✅ PASS | LangGraph StateGraph + fallback SequentialWorkflow |
+| Custom Python Tools | ✅ PASS | 7 custom tools in tools.py, all type-hinted |
+| Tool Integration | ✅ PASS | All tools called by agents with full logging |
+| State Management | ✅ PASS | WorkflowState passed and updated through pipeline |
+| Logging / Observability | ✅ PASS | JSONL logs with timestamps, events, payloads |
+| Testing Scripts | ✅ PASS | 4 unit tests, 1 integration test, 1 evaluation harness |
+| Fully Local (no paid APIs) | ✅ PASS | No OpenAI/Anthropic keys required or used |
 
 ---
 
@@ -283,9 +265,9 @@ Final State (complete with all agent outputs)
 ### Before Submission (CRITICAL - 5 min to fix):
 
 1. **📝 File:** [docs/contribution_proof.md](docs/contribution_proof.md)
-   - **Issue:** None
-   - **Fix:** Contribution proof updated for the sole contributor
-   - **Priority:** RESOLVED
+   - **Issue:** Contains placeholder names "Student 1-4"
+   - **Fix:** Replace with actual student names, agents developed, tools implemented
+   - **Priority:** CRITICAL (evaluators will see this first)
 
 2. **📝 File:** [docs/technical_report.md](docs/technical_report.md)
    - **Issue:** Line 2 says "Add your GitHub link here after pushing"
@@ -303,28 +285,28 @@ Final State (complete with all agent outputs)
 
 ## 13. SYSTEM INTEGRITY CHECKS ✅
 
-| Check                                                   | Result  |
-| ------------------------------------------------------- | ------- |
-| No missing imports                                      | ✅ PASS |
-| No undefined variables                                  | ✅ PASS |
-| No circular dependencies                                | ✅ PASS |
-| All file paths exist                                    | ✅ PASS |
-| JSON outputs valid                                      | ✅ PASS |
-| JSONL logs parseable                                    | ✅ PASS |
-| All test assertions pass                                | ✅ PASS |
+| Check | Result |
+|-------|--------|
+| No missing imports | ✅ PASS |
+| No undefined variables | ✅ PASS |
+| No circular dependencies | ✅ PASS |
+| All file paths exist | ✅ PASS |
+| JSON outputs valid | ✅ PASS |
+| JSONL logs parseable | ✅ PASS |
+| All test assertions pass | ✅ PASS |
 | Deterministic behavior (runs produce consistent output) | ✅ PASS |
 
 ---
 
 ## 14. PERFORMANCE METRICS ✅
 
-| Metric                  | Value                                      |
-| ----------------------- | ------------------------------------------ |
-| Total execution time    | ~0.1 seconds (deterministic mode)          |
-| Test execution time     | 1.065 seconds (4 tests)                    |
-| Evaluation harness time | ~0.3 seconds                               |
-| Memory usage            | Minimal (no large models in --no-llm mode) |
-| Log file size           | ~8 KB per run                              |
+| Metric | Value |
+|--------|-------|
+| Total execution time | ~0.1 seconds (deterministic mode) |
+| Test execution time | 1.065 seconds (4 tests) |
+| Evaluation harness time | ~0.3 seconds |
+| Memory usage | Minimal (no large models in --no-llm mode) |
+| Log file size | ~8 KB per run |
 
 ---
 
@@ -333,7 +315,6 @@ Final State (complete with all agent outputs)
 ### ✅ PROJECT IS FULLY OPERATIONAL
 
 **What's Working:**
-
 - ✅ All 4 agents executing correctly
 - ✅ All 7 custom tools functioning
 - ✅ State management working flawlessly
@@ -345,30 +326,28 @@ Final State (complete with all agent outputs)
 - ✅ Deterministic and reproducible
 
 **Ready for Submission?**
-
-- ✅ **YES**
+- ⚠️ **ALMOST YES** - Fix the 2 doc placeholders first (5 minutes)
+- Then: ✅ **FULLY YES**
 
 **Expected Performance in Viva:**
-
 - ✅ Can demonstrate working system
 - ✅ Can show agent collaboration
 - ✅ Can walk through JSONL logs
 - ✅ Can show outputs being generated
 - ✅ Can run tests live
-- ✅ Contribution proof updated before demo
+- ⚠️ Must update contribution proof before demo
 
 ---
 
 ## 16. QUICK NEXT STEPS
 
-1. **NOW:** Update the remaining GitHub URL (5 min)
-
+1. **NOW:** Fix the 2 files with placeholders (5 min)
    ```
+   - docs/contribution_proof.md → Replace Student 1-4
    - docs/technical_report.md → Add GitHub URL
    ```
 
 2. **THEN:** Commit and push to GitHub
-
    ```bash
    git add .
    git commit -m "Final submission - all tests passing"
@@ -376,7 +355,6 @@ Final State (complete with all agent outputs)
    ```
 
 3. **BEFORE VIVA:** Run the demo exactly as documented
-
    ```bash
    python -m returnwise_mas --input sample_data/return_requests.json --policy sample_data/return_policy.md --no-llm
    ```
@@ -395,5 +373,5 @@ All requirements are met. All tests pass. System is fully functional. Minor docu
 
 ---
 
-_Generated: May 3, 2026_  
-_Verification completed successfully_
+*Generated: May 3, 2026*  
+*Verification completed successfully*
