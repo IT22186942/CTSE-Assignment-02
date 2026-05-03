@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+logs/
+outputs/
+.test-tmp/
+docs/_render_report*/
+.env
+.DS_Store
+CTSE - Assignment 2.pdf

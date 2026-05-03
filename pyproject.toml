@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "returnwise-mas"
+version = "0.1.0"
+description = "A local Ollama-powered multi-agent system for e-commerce return request triage."
+requires-python = ">=3.10"
+dependencies = [
+  "langgraph>=0.2.60",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[project.scripts]
+returnwise-mas = "returnwise_mas.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
